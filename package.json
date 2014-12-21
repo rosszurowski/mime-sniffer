@@ -4,6 +4,10 @@
   "version": "0.0.1",
   "main": "index.js",
   "author": "Ross Zurowski",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rosszurowski/mime-sniffer.git"
+  },
   "license": "MIT",
   "dependencies": {
     "debug": "^2.1.0"
