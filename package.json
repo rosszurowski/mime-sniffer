@@ -1,0 +1,11 @@
+{
+  "name": "mime-sniffer",
+  "description": "A mime sniffer that uses file magic numbers rather than unsecure extensions.",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Ross Zurowski",
+  "license": "MIT",
+  "dependencies": {
+    "debug": "^2.1.0"
+  }
+}
