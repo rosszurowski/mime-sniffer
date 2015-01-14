@@ -17,24 +17,38 @@ var keys = Object.keys(map);
 
 var lookup = exports.lookup = function(file, done) {
 	
-	if (!file) return done(new Error('Must pass a file path'));
-	
-	fs.open(file, 'r', function(stat, fd) {
-		var buffer = new Buffer(length);
-		fs.read(fd, buffer, 0, length, 0, function(err) {
-			if (err) return done(err);
-			var magic = buffer.toString('hex');
-			// if the keys contain the magic number somewhere
-			var key = contains(keys, magic);
-			var result = key ? map[key] : false;
-			if (!result) {
-				debug('No magic number match for:' + ' ' + magic);
-				return done(new Error('No magic number match for ' + file));
-			}
-			return done(null, result);
+	if (!file) return done(new Error('Must pass a file path or buffer'));
+
+	var buffer = new Buffer(length);
+
+	var check = function(err) {
+
+		if (err) return done(err);
+		var magic = buffer.toString('hex');
+		// if the keys contain the magic number somewhere
+		var key = contains(keys, magic);
+		var result = key ? map[key] : false;
+		if (!result) {
+			debug('No magic number match for:' + ' ' + magic);
+			return done(new Error('No magic number match for ' + file));
+		}
+		return done(null, result);
+
+	};
+
+	if (file instanceof Buffer) {
+
+		file.copy(buffer, 0, 0, length);
+		check();
+
+	} else {
+
+		fs.open(file, 'r', function(stat, fd) {
+			fs.read(fd, buffer, 0, length, 0, check);
 		});
-		
-	});
+
+	}
+
 }
 
 /**
