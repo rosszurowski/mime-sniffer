@@ -14,6 +14,7 @@ npm install mime-sniffer --save
 
 ```javascript
 var mime = require('mime-sniffer');
+
 mime.lookup('/path/to/file.jpg', function(err, info) {
 	console.log(info); // { mime: 'image/jpeg', extension: 'jpg' }
 });
@@ -24,8 +25,9 @@ You can also pass in a Buffer:
 ```javascript
 var fs = require('fs');
 var mime = require('mime-sniffer');
+
 mime.lookup(fs.readFileSync('/path/to/file.jpg'), function(err, info) {
-	console.log(info); // { mime: 'image/jpeg', extension: 'jpg' }
+	// { mime: 'image/jpeg', extension: 'jpg' }
 });
 ```
 
