@@ -1,15 +1,18 @@
 {
   "name": "mime-sniffer",
-  "description": "A mime sniffer that uses file magic numbers rather than unsecure extensions.",
   "version": "0.0.2",
-  "main": "index.js",
+  "description": "A mime sniffer that uses file magic numbers rather than unsecure extensions.",
+  "dependencies": {
+    "debug": "^2.1.0"
+  },
   "author": "Ross Zurowski",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/rosszurowski/mime-sniffer.git"
   },
-  "license": "MIT",
-  "dependencies": {
-    "debug": "^2.1.0"
-  }
+  "keywords": [
+    "mime",
+    "util"
+  ]
 }

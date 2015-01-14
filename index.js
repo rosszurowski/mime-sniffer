@@ -6,7 +6,6 @@
 
 var debug = require('debug')('mime-sniffer');
 var fs = require('fs');
-var path = require('path');
 
 // the length of bytes to check for the magic numbers
 var length = 24;
@@ -14,15 +13,26 @@ var length = 24;
 var map = exports.database = require('./lib/numbers.js');
 var keys = Object.keys(map);
 
-
-var lookup = exports.lookup = function(file, done) {
+/**
+ * Look up file info
+ * @param {String|Buffer} file
+ * @param {Function}      done   (err, info)
+ */
+exports.lookup = function(file, done) {
 	
 	if (!file) return done(new Error('Must pass a file path or buffer'));
-
 	var buffer = new Buffer(length);
 
-	var check = function(err) {
+	if (Buffer.isBuffer(file)) {
+		file.copy(buffer, 0, 0, length);
+		return check();
+	}
 
+	fs.open(file, 'r', function(stat, fd) {
+		fs.read(fd, buffer, 0, length, 0, check);
+	});
+
+	function check(err) {
 		if (err) return done(err);
 		var magic = buffer.toString('hex');
 		// if the keys contain the magic number somewhere
@@ -33,22 +43,7 @@ var lookup = exports.lookup = function(file, done) {
 			return done(new Error('No magic number match for ' + file));
 		}
 		return done(null, result);
-
-	};
-
-	if (file instanceof Buffer) {
-
-		file.copy(buffer, 0, 0, length);
-		check();
-
-	} else {
-
-		fs.open(file, 'r', function(stat, fd) {
-			fs.read(fd, buffer, 0, length, 0, check);
-		});
-
 	}
-
 }
 
 /**
