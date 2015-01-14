@@ -1,6 +1,6 @@
 {
   "name": "mime-sniffer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A mime sniffer that uses file magic numbers rather than unsecure extensions.",
   "dependencies": {
     "debug": "^2.1.0"
